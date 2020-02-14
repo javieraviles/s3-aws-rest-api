@@ -1,0 +1,142 @@
+{
+	"info": {
+		"_postman_id": "b8d23c79-21fb-4518-b461-d7b36e686a60",
+		"name": "practica1-computacion-nube-s3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get buckets",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost/api/buckets/",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"buckets",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get bucket",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost/api/buckets/s3.cloudapps.codeurjc",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"buckets",
+						"s3.cloudapps.codeurjc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create bucket",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "https://localhost/api/buckets/s3.cloudapps.codeurjc2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"buckets",
+						"s3.cloudapps.codeurjc2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create object",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Projects/WLTP/cloud-co/e2etests/e2e-tests.json"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://localhost/api/buckets/s3.cloudapps.codeurjc/uploadObject",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"buckets",
+						"s3.cloudapps.codeurjc",
+						"uploadObject"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete bucket",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost/api/buckets/s3.cloudapps.codeurjc2",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"buckets",
+						"s3.cloudapps.codeurjc2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete object",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost/api/buckets/s3.cloudapps.codeurjc/e2e-tests.json",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"buckets",
+						"s3.cloudapps.codeurjc",
+						"e2e-tests.json"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

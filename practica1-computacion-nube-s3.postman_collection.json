@@ -1,58 +1,40 @@
 {
 	"info": {
-		"_postman_id": "b8d23c79-21fb-4518-b461-d7b36e686a60",
-		"name": "practica1-computacion-nube-s3",
+		"_postman_id": "8ef1695e-ee37-4e2a-9b22-60b597fb5dcf",
+		"name": "S3_Requests",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Get buckets",
+			"name": "Upload file",
 			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": [
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
 						{
-							"key": "password",
-							"value": "awesome_password",
-							"type": "string"
+							"key": "file",
+							"type": "file",
+							"src": []
 						},
 						{
-							"key": "username",
-							"value": "codeurjc",
-							"type": "string"
+							"key": "isPublic",
+							"value": "true",
+							"type": "text"
 						}
 					]
 				},
-				"method": "GET",
-				"header": [],
 				"url": {
-					"raw": "{{urlHost}}/api/buckets/",
+					"raw": "{{APP_URL}}/api/buckets/<bucket_name>/uploadObject",
 					"host": [
-						"{{urlHost}}"
+						"{{APP_URL}}"
 					],
 					"path": [
 						"api",
 						"buckets",
-						""
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get bucket",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{urlHost}}/api/buckets/s3.cloudapps.codeurjc",
-					"host": [
-						"{{urlHost}}"
-					],
-					"path": [
-						"api",
-						"buckets",
-						"s3.cloudapps.codeurjc"
+						"<bucket_name>",
+						"uploadObject"
 					]
 				}
 			},
@@ -64,49 +46,33 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "{{urlHost}}/api/buckets/s3.cloudapps.codeurjc2",
+					"raw": "{{APP_URL}}/api/buckets/<bucket_name>",
 					"host": [
-						"{{urlHost}}"
+						"{{APP_URL}}"
 					],
 					"path": [
 						"api",
 						"buckets",
-						"s3.cloudapps.codeurjc2"
+						"<bucket_name>"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Create object",
+			"name": "Get all buckets",
 			"request": {
-				"method": "POST",
+				"method": "GET",
 				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "file",
-							"type": "file",
-							"src": "/C:/Projects/WLTP/cloud-co/e2etests/e2e-tests.json"
-						},
-						{
-							"key": "isPublic",
-							"value": "false",
-							"type": "text"
-						}
-					]
-				},
 				"url": {
-					"raw": "{{urlHost}}/api/buckets/s3.cloudapps.codeurjc/uploadObject",
+					"raw": "{{APP_URL}}/api/buckets/",
 					"host": [
-						"{{urlHost}}"
+						"{{APP_URL}}"
 					],
 					"path": [
 						"api",
 						"buckets",
-						"s3.cloudapps.codeurjc",
-						"uploadObject"
+						""
 					]
 				}
 			},
@@ -118,75 +84,80 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{urlHost}}/api/buckets/s3.cloudapps.codeurjc2",
+					"raw": "{{APP_URL}}/api/buckets/<bucket_name>",
 					"host": [
-						"{{urlHost}}"
+						"{{APP_URL}}"
 					],
 					"path": [
 						"api",
 						"buckets",
-						"s3.cloudapps.codeurjc2"
+						"<bucket_name>"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Delete object",
+			"name": "Get all objects from a bucket",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{APP_URL}}/api/buckets/<bucket_name>/objects",
+					"host": [
+						"{{APP_URL}}"
+					],
+					"path": [
+						"api",
+						"buckets",
+						"<bucket_name>",
+						"objects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete object form bucket",
 			"request": {
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{urlHost}}/api/buckets/s3.cloudapps.codeurjc/e2e-tests.json",
+					"raw": "{{APP_URL}}/api/buckets/<bucket_name>/<object_name>",
 					"host": [
-						"{{urlHost}}"
+						"{{APP_URL}}"
 					],
 					"path": [
 						"api",
 						"buckets",
-						"s3.cloudapps.codeurjc",
-						"e2e-tests.json"
+						"<bucket_name>",
+						"<object_name>"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "Copy object",
+			"name": "Copy object ",
 			"request": {
 				"method": "POST",
 				"header": [],
-				"body": {
-					"mode": "formdata",
-					"formdata": [
-						{
-							"key": "file",
-							"type": "file",
-							"src": "/C:/Projects/WLTP/cloud-co/e2etests/e2e-tests.json"
-						},
-						{
-							"key": "isPublic",
-							"value": "false",
-							"type": "text"
-						}
-					]
-				},
 				"url": {
-					"raw": "{{urlHost}}/api/buckets/s3.cloudapps.codeurjc/e2e-tests.json/copy?destinationBucketName=s3.cloudapps.codeurjc2",
+					"raw": "{{APP_URL}}/api/buckets/<source_bucket_name>/<object_name>/copy?destinationBucketName=<dest_bucket_name>",
 					"host": [
-						"{{urlHost}}"
+						"{{APP_URL}}"
 					],
 					"path": [
 						"api",
 						"buckets",
-						"s3.cloudapps.codeurjc",
-						"e2e-tests.json",
+						"<source_bucket_name>",
+						"<object_name>",
 						"copy"
 					],
 					"query": [
 						{
 							"key": "destinationBucketName",
-							"value": "s3.cloudapps.codeurjc2"
+							"value": "<dest_bucket_name>"
 						}
 					]
 				}
@@ -194,11 +165,26 @@
 			"response": []
 		}
 	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "awesome_password",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "codeurjc",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "7b50d80f-c2bc-4aac-9065-6ed13c8d8391",
+				"id": "78247f85-03a9-4d28-ac61-57d16c2ce8ce",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -208,7 +194,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "17e65783-d47b-4c77-8fd5-6e60f205bb96",
+				"id": "15b57a5d-c1ad-4544-b7c8-6c68a57a830c",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -218,8 +204,8 @@
 	],
 	"variable": [
 		{
-			"id": "079a20c9-8f01-4e41-b328-7d7411149ade",
-			"key": "urlHost",
+			"id": "92dba32a-675d-4b53-83b3-f0c28ac36bbf",
+			"key": "APP_URL",
 			"value": "https://localhost",
 			"type": "string"
 		}

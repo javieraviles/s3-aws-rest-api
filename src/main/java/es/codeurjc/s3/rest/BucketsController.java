@@ -3,6 +3,7 @@ package es.codeurjc.s3.rest;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.CopyObjectResult;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectResult;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 
 @RestController
 @CrossOrigin(methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE })
@@ -38,14 +40,12 @@ public class BucketsController {
 		return s3.listBuckets();
 	}
 
-	@GetMapping("/{bucketName}")
-	public ResponseEntity<Bucket> getBucket(@PathVariable String bucketName) {
+	@GetMapping("/{bucketName}/objects")
+	public ResponseEntity<List<S3ObjectSummary>> getBucket(@PathVariable String bucketName) {
 
-		final Bucket fetchedBucket = s3.listBuckets().stream().filter(bucket -> bucketName.equals(bucket.getName()))
-				.findFirst().orElse(null);
-
-		if (fetchedBucket != null) {
-			return new ResponseEntity<>(fetchedBucket, HttpStatus.OK);
+		if (s3.doesBucketExistV2(bucketName)) {
+			final List<S3ObjectSummary> result = s3.listObjects(bucketName).getObjectSummaries();
+			return new ResponseEntity<>(result, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
@@ -66,17 +66,21 @@ public class BucketsController {
 			@RequestParam("file") MultipartFile multiPartFile, @RequestParam("isPublic") Boolean isPublic)
 			throws IllegalStateException, IOException {
 
-		final String fileName = multiPartFile.getOriginalFilename();
-		final File file = new File(System.getProperty("java.io.tmpdir"), fileName);
-		multiPartFile.transferTo(file);
+		if (s3.doesBucketExistV2(bucketName)) {
+			final String fileName = multiPartFile.getOriginalFilename();
+			final File file = new File(System.getProperty("java.io.tmpdir"), fileName);
+			multiPartFile.transferTo(file);
 
-		final PutObjectRequest objectRequest = new PutObjectRequest(bucketName, fileName, file);
-		if (isPublic) {
-			objectRequest.setCannedAcl(CannedAccessControlList.PublicRead);
+			final PutObjectRequest objectRequest = new PutObjectRequest(bucketName, fileName, file);
+			if (isPublic) {
+				objectRequest.setCannedAcl(CannedAccessControlList.PublicRead);
+			}
+			final PutObjectResult result = s3.putObject(objectRequest);
+
+			return new ResponseEntity<>(result, HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		final PutObjectResult result = s3.putObject(objectRequest);
-
-		return new ResponseEntity<>(result, HttpStatus.CREATED);
 
 	}
 

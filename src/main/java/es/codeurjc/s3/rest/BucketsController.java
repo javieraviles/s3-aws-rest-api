@@ -31,7 +31,7 @@ public class BucketsController {
 	private AmazonS3 s3;
 
 	@GetMapping("/")
-	public Collection<Bucket> items() {
+	public Collection<Bucket> getBuckets() {
 		return s3.listBuckets();
 	}
 
@@ -63,7 +63,7 @@ public class BucketsController {
 			@RequestParam("file") MultipartFile multiPartFile) throws IllegalStateException, IOException {
 
 		final String fileName = multiPartFile.getOriginalFilename();
-		final File file = new File(System.getProperty("java.io.tmpdir") + "/" + fileName);
+		final File file = new File(System.getProperty("java.io.tmpdir"), fileName);
 		multiPartFile.transferTo(file);
 
 		final PutObjectResult result = s3.putObject(bucketName, fileName, file);

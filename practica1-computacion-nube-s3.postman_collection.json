@@ -8,13 +8,27 @@
 		{
 			"name": "Get buckets",
 			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "awesome_password",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "codeurjc",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://localhost/api/buckets/",
-					"protocol": "https",
+					"raw": "{{urlHost}}/api/buckets/",
 					"host": [
-						"localhost"
+						"{{urlHost}}"
 					],
 					"path": [
 						"api",
@@ -31,10 +45,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "https://localhost/api/buckets/s3.cloudapps.codeurjc",
-					"protocol": "https",
+					"raw": "{{urlHost}}/api/buckets/s3.cloudapps.codeurjc",
 					"host": [
-						"localhost"
+						"{{urlHost}}"
 					],
 					"path": [
 						"api",
@@ -51,10 +64,9 @@
 				"method": "POST",
 				"header": [],
 				"url": {
-					"raw": "https://localhost/api/buckets/s3.cloudapps.codeurjc2",
-					"protocol": "https",
+					"raw": "{{urlHost}}/api/buckets/s3.cloudapps.codeurjc2",
 					"host": [
-						"localhost"
+						"{{urlHost}}"
 					],
 					"path": [
 						"api",
@@ -81,10 +93,9 @@
 					]
 				},
 				"url": {
-					"raw": "https://localhost/api/buckets/s3.cloudapps.codeurjc/uploadObject",
-					"protocol": "https",
+					"raw": "{{urlHost}}/api/buckets/s3.cloudapps.codeurjc/uploadObject",
 					"host": [
-						"localhost"
+						"{{urlHost}}"
 					],
 					"path": [
 						"api",
@@ -102,10 +113,9 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://localhost/api/buckets/s3.cloudapps.codeurjc2",
-					"protocol": "https",
+					"raw": "{{urlHost}}/api/buckets/s3.cloudapps.codeurjc2",
 					"host": [
-						"localhost"
+						"{{urlHost}}"
 					],
 					"path": [
 						"api",
@@ -122,10 +132,9 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "https://localhost/api/buckets/s3.cloudapps.codeurjc/e2e-tests.json",
-					"protocol": "https",
+					"raw": "{{urlHost}}/api/buckets/s3.cloudapps.codeurjc/e2e-tests.json",
 					"host": [
-						"localhost"
+						"{{urlHost}}"
 					],
 					"path": [
 						"api",
@@ -136,6 +145,36 @@
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "7b50d80f-c2bc-4aac-9065-6ed13c8d8391",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "17e65783-d47b-4c77-8fd5-6e60f205bb96",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "8cbf6b8b-2b8f-4a46-8e98-2e10080be61c",
+			"key": "urlHost",
+			"value": "https://localhost",
+			"type": "string"
 		}
 	],
 	"protocolProfileBehavior": {}

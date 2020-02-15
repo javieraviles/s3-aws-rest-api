@@ -20,6 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.Bucket;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.CopyObjectResult;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectResult;
 
 @RestController
@@ -60,13 +63,18 @@ public class BucketsController {
 
 	@PostMapping("/{bucketName}/uploadObject")
 	public ResponseEntity<PutObjectResult> createObject(@PathVariable String bucketName,
-			@RequestParam("file") MultipartFile multiPartFile) throws IllegalStateException, IOException {
+			@RequestParam("file") MultipartFile multiPartFile, @RequestParam("isPublic") Boolean isPublic)
+			throws IllegalStateException, IOException {
 
 		final String fileName = multiPartFile.getOriginalFilename();
 		final File file = new File(System.getProperty("java.io.tmpdir"), fileName);
 		multiPartFile.transferTo(file);
 
-		final PutObjectResult result = s3.putObject(bucketName, fileName, file);
+		final PutObjectRequest objectRequest = new PutObjectRequest(bucketName, fileName, file);
+		if (isPublic) {
+			objectRequest.setCannedAcl(CannedAccessControlList.PublicRead);
+		}
+		final PutObjectResult result = s3.putObject(objectRequest);
 
 		return new ResponseEntity<>(result, HttpStatus.CREATED);
 
@@ -91,6 +99,17 @@ public class BucketsController {
 		if (s3.doesObjectExist(bucketName, objectName)) {
 			s3.deleteObject(bucketName, objectName);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+	}
+
+	@PostMapping("/{sourceBucketName}/{objectName}/copy")
+	public ResponseEntity<CopyObjectResult> copyObject(@PathVariable String sourceBucketName,
+			@PathVariable String objectName, @RequestParam("destinationBucketName") String destinationBucketName) {
+		if (s3.doesObjectExist(sourceBucketName, objectName)) {
+			final CopyObjectResult result = s3.copyObject(sourceBucketName, objectName, destinationBucketName,
+					objectName);
+			return new ResponseEntity<>(result, HttpStatus.CREATED);
 		}
 		return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}

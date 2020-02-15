@@ -89,6 +89,11 @@
 							"key": "file",
 							"type": "file",
 							"src": "/C:/Projects/WLTP/cloud-co/e2etests/e2e-tests.json"
+						},
+						{
+							"key": "isPublic",
+							"value": "false",
+							"type": "text"
 						}
 					]
 				},
@@ -145,6 +150,48 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Copy object",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "file",
+							"type": "file",
+							"src": "/C:/Projects/WLTP/cloud-co/e2etests/e2e-tests.json"
+						},
+						{
+							"key": "isPublic",
+							"value": "false",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{urlHost}}/api/buckets/s3.cloudapps.codeurjc/e2e-tests.json/copy?destinationBucketName=s3.cloudapps.codeurjc2",
+					"host": [
+						"{{urlHost}}"
+					],
+					"path": [
+						"api",
+						"buckets",
+						"s3.cloudapps.codeurjc",
+						"e2e-tests.json",
+						"copy"
+					],
+					"query": [
+						{
+							"key": "destinationBucketName",
+							"value": "s3.cloudapps.codeurjc2"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
@@ -171,7 +218,7 @@
 	],
 	"variable": [
 		{
-			"id": "8cbf6b8b-2b8f-4a46-8e98-2e10080be61c",
+			"id": "079a20c9-8f01-4e41-b328-7d7411149ade",
 			"key": "urlHost",
 			"value": "https://localhost",
 			"type": "string"
